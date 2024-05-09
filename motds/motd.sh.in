@@ -40,20 +40,6 @@ ${motd_indent}\e[1mInstall:\e[0m pkg install <package>
 ${motd_indent}\e[1mUpgrade:\e[0m pkg upgrade
 "
 
-
-if [ "$TERMUX_APP_PACKAGE_MANAGER" = "apt" ]; then
-
-    motd+="
-${motd_indent}\e[1mSubscribing to additional repos:\e[0m
-${motd_indent}\e[1mRoot:\e[0m pkg install root-repo
-${motd_indent}\e[1mX11:\e[0m  pkg install x11-repo
-
-${motd_indent}For fixing any repository issues,
-${motd_indent}try 'termux-change-repo' command.
-"
-
-fi
-
 motd+="
 ${motd_indent}Report issues at \e[4mhttps://termux.dev/issues\e[0m
 "

@@ -610,8 +610,7 @@ PACKAGE MANAGEMENT
 
 Termux uses **apt(8)** as package manager, just like Debian. However we
 highly recommend to use our wrapper **pkg** which simplifies certain
-tasks and also automatically picks the mirror to help reduce traffic usage
-on the origin repositories. See its usage below.
+tasks. See its usage below.
 
 Installing package:
 
