@@ -56,16 +56,5 @@ motd:
 	@echo " - Install: pkg install <package>" >> motd
 	@echo " - Upgrade: pkg upgrade" >> motd
 
-    ifeq ($(TERMUX_PACKAGE_MANAGER),apt)
-		@echo "" >> motd
-		@echo "Subscribing to additional repositories:" >> motd
-		@echo "" >> motd
-		@echo " - Root:    pkg install root-repo" >> motd
-		@echo " - X11:     pkg install x11-repo" >> motd
-		@echo "" >> motd
-		@echo "For fixing any repository issues," >> motd
-		@echo "try 'termux-change-repo' command." >> motd
-    endif
-
 	@echo "" >> motd
 	@echo "Report issues at https://termux.dev/issues" >> motd
