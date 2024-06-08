@@ -56,4 +56,4 @@ motd:
 	@echo " - Upgrade: pkg upgrade" >> motd
 
 	@echo "" >> motd
-	@echo "Report issues at https://termux.dev/issues" >> motd
+	@echo "Report issues at https://bugs.termux.net" >> motd

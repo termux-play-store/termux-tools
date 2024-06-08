@@ -39,7 +39,7 @@ ${motd_indent}\e[1mUpgrade:\e[0m pkg upgrade
 "
 
 motd+="
-${motd_indent}Report issues at \e[4mhttps://termux.dev/issues\e[0m
+${motd_indent}Report issues at \e[4mhttps://bugs.termux.net\e[0m
 "
 
 echo -e "$motd"
