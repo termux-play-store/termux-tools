@@ -22,9 +22,7 @@
 #      motd message with escape sequences, optionally with a terminal logo.
 #   2. motd: A static motd that is just read as is with cat and displayed.
 
-# The motd-playstore is an additional motd that will only be displayed
-# if the termux-app version is very old (like the version found on playstore)
-sysconf_DATA = motd.sh motd motd-playstore
+sysconf_DATA = motd.sh motd
 
 CLEANFILES = motd.sh motd
 
@@ -38,22 +36,3 @@ $1: $1.in Makefile
 endef
 
 $(eval $(call process-rule,motd.sh))
-
-
-motd:
-	@echo "Creating motd file"
-
-	@echo "Welcome to Termux" > motd
-	@echo "" >> motd
-	@echo "Docs:       https://termux.dev/docs" >> motd
-	@echo "Community:  https://termux.dev/community" >> motd
-
-	@echo "" >> motd
-	@echo "Working with packages:" >> motd
-	@echo "" >> motd
-	@echo " - Search:  pkg search <query>" >> motd
-	@echo " - Install: pkg install <package>" >> motd
-	@echo " - Upgrade: pkg upgrade" >> motd
-
-	@echo "" >> motd
-	@echo "Report issues at https://bugs.termux.net" >> motd

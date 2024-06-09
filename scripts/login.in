@@ -1,22 +1,24 @@
 #!/bin/sh
 
 if tty >/dev/null 2>&1 && [ $# = 0 ] && [ ! -f ~/.hushlogin ] && [ -z "$TERMUX_HUSHLOGIN" ]; then
-	# Use user defined dynamic motd file if it exists
-	if [ -f ~/.termux/motd.sh ]; then
+	if [ -f ~/.config/termux/motd-dynamic ]; then
+		# Use user defined dynamic motd file if it exists
+		[ ! -x ~/.config/termux/motd-dynamic ] && chmod u+x ~/.config/termux/motd-dynamic
+		~/.config/termux/motd-dynamic
+	elif [ -f ~/.config/termux/motd ]; then
+		# Use user defined static motd file if it exists
+		cat ~/.config/termux/motd
+	elif [ -f ~/.termux/motd.sh ]; then
+		# Same as termux-tools in F-Droid build does:
 		[ ! -x ~/.termux/motd.sh ] && chmod u+x ~/.termux/motd.sh
 		~/.termux/motd.sh
-	# Default to termux-tools package provided static motd file if it exists
 	elif [ -f @TERMUX_PREFIX@/etc/motd ]; then
+		# Default to termux-tools package provided static motd file if it exists
 		cat @TERMUX_PREFIX@/etc/motd
 	fi
 else
 	# This variable shouldn't be kept set.
 	unset TERMUX_HUSHLOGIN
-fi
-
-# TERMUX_VERSION env variable has been exported since v0.107 and PATH was being set to following value in <0.104. Last playstore version was v0.101.
-if tty >/dev/null 2>&1 && [ $# = 0 ] && [ -f @TERMUX_PREFIX@/etc/motd-playstore ] && [ -z "$TERMUX_VERSION" ] && [ "$PATH" = "@TERMUX_PREFIX@/bin:@TERMUX_PREFIX@/bin/applets" ]; then
-	printf '\033[0;31m'; cat @TERMUX_PREFIX@/etc/motd-playstore; printf '\033[0m'
 fi
 
 if [ -G ~/.termux/shell ]; then
@@ -30,21 +32,7 @@ else
 	done
 fi
 
-# TERMUX_APP_PACKAGE_MANAGER should be exported by termux-app v0.119.0+ itself
-if [ -z "${TERMUX_APP_PACKAGE_MANAGER-}" ]; then
-	if { [ -n "$(command -v dpkg)" ] && dpkg --compare-versions "$TERMUX_VERSION" lt 0.119.0; } ||   # apt
-		{ [ -n "$(command -v vercmp)" ] && [ "$(vercmp "$TERMUX_VERSION" 0.119.0)" = "-1" ]; }; then # pacman
-		# For the correct operation of scripts that work with the package manager
-		export TERMUX_MAIN_PACKAGE_FORMAT="@TERMUX_PACKAGE_FORMAT@"
-	fi
-fi
-
-if [ -f @TERMUX_PREFIX@/lib/libtermux-exec.so ]; then
-	export LD_PRELOAD=@TERMUX_PREFIX@/lib/libtermux-exec.so
-	$SHELL -c "coreutils --coreutils-prog=true" > /dev/null 2>&1 || unset LD_PRELOAD
-fi
-
-if [ -f @TERMUX_PREFIX@/etc/termux-login.sh ]; then
+if [ -f ~/.config/termux/login.sh ]; then
 	. @TERMUX_PREFIX@/etc/termux-login.sh
 fi
 

@@ -18,13 +18,6 @@
 
 SUBDIRS = . scripts doc motds
 
-CONFFILES = \
-etc/motd \
-etc/motd.sh \
-etc/motd-playstore \
-etc/profile.d/init-termux-properties.sh \
-etc/termux-login.sh
-
 do_subst = sed -e "s%[@]TERMUX_PREFIX[@]%$(termux_prefix)%g" \
 	       -e "s%[@]TERMUX_APP_PACKAGE[@]%${termux_app_package}%g" \
 	       -e "s%[@]TERMUX_BASE_DIR[@]%${termux_base_dir}%g" \
@@ -54,16 +47,7 @@ $(eval $(call sed-rule,termux-login.sh))
 
 
 
-create-deb-control-files:
-	printf "" > conffiles
-	for f in $(CONFFILES); do \
-		printf "%s\n" "$$f" >> conffiles; \
-	done
-	printf "#!%s/bin/bash\n\n" "${termux_prefix}" > preinst
-
-
-
-install-data-local: create-deb-control-files $(pkgdata_PROFILE)
+install-data-local: $(pkgdata_PROFILE)
 	$(MKDIR_P) $(DESTDIR)$(datarootdir)/examples/termux
 	for f in $(pkgdata_EXAMPLES); do \
 		$(INSTALL) -m 644 $(srcdir)/$$f \

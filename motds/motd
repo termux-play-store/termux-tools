@@ -1,0 +1,11 @@
+Welcome to Termux
+
+Docs:       https://termux.dev/docs
+Community:  https://termux.dev/community
+
+Working with packages:
+ - Search:  pkg search <query>
+ - Install: pkg install <package>
+ - Upgrade: pkg upgrade
+
+Report issues at https://bugs.termux.net
