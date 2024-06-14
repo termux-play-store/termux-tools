@@ -1,6 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
 unset LD_LIBRARY_PATH LD_PRELOAD
+
+# See https://github.com/termux-play-store/termux-apps/issues/10 about an
+# interesting detail of KernelSU - it doesn't actually place a su file in
+# /system/bin, but hook execve(2) call in kernel to redirect it to kernel
+# impl when executing /system/bin/su.
+# So we don't want termux-exec to interfere here.
+# Note also that setting TERMUX_EXEC_OPTOUT=1 here means that we cannot
+# use the dash shell, as that shell does not actually setenv(3) on export.
+export TERMUX_EXEC_OPTOUT=1
 
 for p in /debug_ramdisk/su /sbin/su /system/sbin/su /system/bin/su /system/xbin/su /su/bin/su /magisk/.core/bin/su
 do
