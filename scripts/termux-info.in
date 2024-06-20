@@ -27,13 +27,8 @@ updates() {
 	if [ "$(id -u)" = "0" ]; then
 		echo "Running as root. Cannot check package updates."
 	else
-		if [ "$TERMUX_APP_PACKAGE_MANAGER" = "apt" ]; then
-			apt update >/dev/null 2>&1
-			updatable=$(apt list --upgradable 2>/dev/null | tail -n +2)
-		elif [ "$TERMUX_APP_PACKAGE_MANAGER" = "pacman" ]; then
-			pacman -Sy >/dev/null 2>&1
-			updatable=$(pacman -Qu)
-		fi
+		apt update >/dev/null 2>&1
+		updatable=$(apt list --upgradable 2>/dev/null | tail -n +2)
 
 		if [ -z "$updatable" ];then
 			echo "All packages up to date"
@@ -85,9 +80,6 @@ repo_subscriptions_pacman() {
 	fi
 }
 
-# Setup TERMUX_APP_PACKAGE_MANAGER
-source "@TERMUX_PREFIX@/bin/termux-setup-package-manager" || exit 1
-
 case "${TERMUX__USER_ID:-}" in ''|*[!0-9]*|0[0-9]*) TERMUX__USER_ID=0;; esac
 export TERMUX__USER_ID
 
@@ -106,19 +98,11 @@ fi
 
 output+="Packages CPU architecture:
 $(
-	if [ "$TERMUX_APP_PACKAGE_MANAGER" = "apt" ]; then
-		dpkg --print-architecture
-	elif [ "$TERMUX_APP_PACKAGE_MANAGER" = "pacman" ]; then
-		pacman-conf | grep Architecture | sed 's/Architecture = //g'
-	fi
+	dpkg --print-architecture
 )
 Subscribed repositories:
 $(
-	if [ "$TERMUX_APP_PACKAGE_MANAGER" = "apt" ]; then
-		repo_subscriptions_apt
-	elif [ "$TERMUX_APP_PACKAGE_MANAGER" = "pacman" ]; then
-		repo_subscriptions_pacman
-	fi
+	repo_subscriptions_apt
 )
 Updatable packages:
 $(updates)

@@ -1,6 +1,5 @@
-% TERMUX(1) As of application version 0.117 | Termux User Documentation
+% TERMUX(1) | Termux User Documentation
 % The Termux project contributors
-% September 25, 2021
 
 NAME
 ====
@@ -877,7 +876,7 @@ A list of files which have special meaning for the Termux application.
 BUGS
 ====
 
-Report issues to \<https://bugs.termux.net\>.
+Report issues to \<https://bugs.termux.com\>.
 
 SEE ALSO
 ========
