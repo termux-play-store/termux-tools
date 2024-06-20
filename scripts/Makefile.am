@@ -20,7 +20,7 @@
 bin_SCRIPTS = chsh dalvikvm login pkg su termux-backup			\
 termux-fix-shebang termux-info termux-open		\
 termux-open-url termux-reload-settings termux-reset termux-restore	\
-termux-setup-package-manager termux-setup-storage termux-wake-lock	\
+termux-setup-storage termux-wake-lock	\
 termux-wake-unlock
 
 # wrappers around tools in /system/bin:
@@ -74,7 +74,6 @@ $(eval $(call tool-rule,termux-open-url))
 $(eval $(call tool-rule,termux-reload-settings))
 $(eval $(call tool-rule,termux-reset))
 $(eval $(call tool-rule,termux-restore))
-$(eval $(call tool-rule,termux-setup-package-manager))
 $(eval $(call tool-rule,termux-setup-storage))
 $(eval $(call tool-rule,termux-wake-lock))
 $(eval $(call tool-rule,termux-wake-unlock))

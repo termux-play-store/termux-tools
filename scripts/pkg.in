@@ -7,29 +7,20 @@ if [[ "$(id -u)" == "0" ]]; then
 	exit 1
 fi
 
-# Setup TERMUX_APP_PACKAGE_MANAGER
-source "@TERMUX_PREFIX@/bin/termux-setup-package-manager" || exit 1
-
 show_help() {
 	local cache_size
-	local cache_dir=""
-	if [ "$TERMUX_APP_PACKAGE_MANAGER" = "apt" ]; then
-		cache_dir="@TERMUX_CACHE_DIR@/apt/archives"
-	elif [ "$TERMUX_APP_PACKAGE_MANAGER" = "pacman" ]; then
-		cache_dir="@TERMUX_PREFIX@/var/cache/pacman/pkg"
-	fi
+	local cache_dir="@TERMUX_CACHE_DIR@/apt/archives"
 	cache_size=$(du -sh "$cache_dir" 2>/dev/null | cut -f1)
 
 	echo 'Usage: pkg command [arguments]'
 	echo
-	echo "A tool for managing $TERMUX_APP_PACKAGE_MANAGER packages."
+	echo "A tool for managing apt packages."
 	echo
 	echo 'Commands:'
 	echo
-	echo "  autoclean            - Remove all outdated packages from $TERMUX_APP_PACKAGE_MANAGER"
-	echo '                         cache.'
+	echo "  autoclean            - Remove all outdated packages from apt cache."
 	echo
-	echo "  clean                - Remove all packages from $TERMUX_APP_PACKAGE_MANAGER cache."
+	echo "  clean                - Remove all packages from apt cache."
 	[ -n "$cache_size" ] &&
 	echo "                         Using $cache_size now."
 	echo
@@ -55,7 +46,7 @@ show_help() {
 	echo '  upgrade              - Upgrade all installed packages to the latest'
 	echo '                         version.'
 	echo
-	echo "  update               - Update $TERMUX_APP_PACKAGE_MANAGER databases from configured"
+	echo "  update               - Update apt databases from configured"
 	echo '                         repositories.'
 	echo
 	exit 1
@@ -126,39 +117,20 @@ CMD="$1"
 shift 1
 ERROR=false
 
-case "$TERMUX_APP_PACKAGE_MANAGER" in
-	apt)
-		case "$CMD" in
-			f*) dpkg -L "$@";;
-			sh*|inf*) apt show "$@";;
-			add|i*) update_apt_cache; apt install "$@";;
-			autoc*) apt autoclean;;
-			cl*) apt clean;;
-			list-a*) apt list "$@";;
-			list-i*) apt list --installed "$@";;
-			rei*) apt install --reinstall "$@";;
-			se*) update_apt_cache; apt search "$@";;
-			un*|rem*|rm|del*) apt remove "$@";;
-                        upd*) apt update;;
-			up|upg*) apt update; apt full-upgrade "$@";;
-			*) ERROR=true;;
-		esac;;
-	pacman)
-		case "$CMD" in
-			f*) pacman -Ql "$@";;
-			sh*|inf*) pacman -Qi "$@";;
-			add|i*) pacman -Sy --needed "$@";;
-			autoc*) pacman -Sc;;
-			cl*) pacman -Scc;;
-			list-a*) pacman -Sl "$@";;
-			list-i*) pacman -Q "$@";;
-			rei*) pacman -S "$@";;
-			se*) pacman -Sys "$@";;
-			un*|rem*|rm|del*) pacman -Rcns "$@";;
-                        upd*) pacman -Sy "$@";;
-			up|upg*) pacman -Syu "$@";;
-			*) ERROR=true;;
-		esac;;
+case "$CMD" in
+	f*) dpkg -L "$@";;
+	sh*|inf*) apt show "$@";;
+	add|i*) update_apt_cache; apt install "$@";;
+	autoc*) apt autoclean;;
+	cl*) apt clean;;
+	list-a*) apt list "$@";;
+	list-i*) apt list --installed "$@";;
+	rei*) apt install --reinstall "$@";;
+	se*) update_apt_cache; apt search "$@";;
+	un*|rem*|rm|del*) apt remove "$@";;
+                    upd*) apt update;;
+	up|upg*) apt update; apt full-upgrade "$@";;
+	*) ERROR=true;;
 esac
 
 if $ERROR; then

@@ -16,23 +16,6 @@
 # along with termux-tools.  If not, see
 # <https://www.gnu.org/licenses/>.
 
+sysconf_DATA = motd
 
-# We have two variants of our motd message loaded by login script:
-#   1. motd.sh: A dynamic motd that is executed with bash and echos a
-#      motd message with escape sequences, optionally with a terminal logo.
-#   2. motd: A static motd that is just read as is with cat and displayed.
-
-sysconf_DATA = motd.sh motd
-
-CLEANFILES = motd.sh motd
-
-
-do_subst = sed -e "s%[@]TERMUX_PREFIX[@]%$(termux_prefix)%g"
-
-define process-rule
-$1: $1.in Makefile
-	@echo "Creating $1"
-	@$$(do_subst) < $(srcdir)/$1.in > $1
-endef
-
-$(eval $(call process-rule,motd.sh))
+CLEANFILES = motd
