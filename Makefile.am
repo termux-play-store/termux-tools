@@ -16,7 +16,7 @@
 # along with termux-tools.  If not, see
 # <https://www.gnu.org/licenses/>.
 
-SUBDIRS = . scripts doc motds
+SUBDIRS = . scripts doc motds src
 
 do_subst = sed -e "s%[@]TERMUX_PREFIX[@]%$(termux_prefix)%g" \
 	       -e "s%[@]TERMUX_APP_PACKAGE[@]%${termux_app_package}%g" \

@@ -22,11 +22,13 @@ dnl  along with termux-tools.  If not, see
 dnl  <https://www.gnu.org/licenses/>.
 
 AC_PREREQ([2.69])
-AC_INIT([termux-tools], [3.0.7], [contact@termux.com])
+AC_INIT([termux-tools], [3.0.8], [contact@termux.com])
 
 AM_INIT_AUTOMAKE([foreign])
 
 AC_PROG_MAKE_SET
+AC_PROG_CC
+AC_LANG(C)
 
 copyright="Copyright (C) 2022-2024 Termux."
 if test "${TERMUX_APP_PACKAGE+set}" = set; then
@@ -93,6 +95,6 @@ AC_SUBST(termux_package_manager)
 AC_PROG_LN_S
 
 AC_CONFIG_FILES([Makefile scripts/Makefile doc/Makefile
-motds/Makefile])
+motds/Makefile src/Makefile])
 
 AC_OUTPUT
