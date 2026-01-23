@@ -22,7 +22,7 @@ dnl  along with termux-tools.  If not, see
 dnl  <https://www.gnu.org/licenses/>.
 
 AC_PREREQ([2.69])
-AC_INIT([termux-tools], [3.0.8], [contact@termux.com])
+AC_INIT([termux-tools], [3.0.9], [contact@termux.com])
 
 AM_INIT_AUTOMAKE([foreign])
 
