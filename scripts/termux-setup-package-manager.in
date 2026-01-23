@@ -1,0 +1,3 @@
+#!/bin/sh
+
+export TERMUX_APP_PACKAGE_MANAGER=apt
